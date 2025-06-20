@@ -58,7 +58,13 @@ async function renderPage(){
     const navSections = document.createElement('nav')
     const list = document.createElement('ul')
     list.id = 'nav-list'
-    list.innerHTML = '<li>About</li> <li>Base Stats</li> <li>Evolution</li> <li>Moves</li>'
+    list.innerHTML = `<li>About</li>
+    <li>Base Stats</li>
+    <li>Abilities</li>
+    <li>Type</li>
+    <li>Evolutions</li>
+    <li>Moves</li>
+    <li>Forms</li>`
     navSections.append(list)
     body.append(pkmn_name, img_div, navSections)
 }
