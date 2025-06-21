@@ -77,27 +77,34 @@ async function renderPage(){
     const navSections = document.createElement('nav')
     const list = document.createElement('ul')
     list.id = 'nav-list'
-    list.innerHTML = `<li id="about">About</li>
-    <li id="base_stats">Base Stats</li>
-    <li id="abilities">Abilities</li>
-    <li id="type">Type</li>
-    <li id="evolutions">Evolutions</li>
-    <li id="moves">Moves</li>
-    <li id="forms">Forms</li>`
+    list.innerHTML = `<li id="about" class="nav">About</li>
+    <li id="base_stats" class="nav">Base Stats</li>
+    <li id="abilities" class="nav">Abilities</li>
+    <li id="type" class="nav">Type</li>
+    <li id="evolutions" class="nav">Evolutions</li>
+    <li id="moves" class="nav">Moves</li>
+    <li id="forms" class="nav">Forms</li>`
     navSections.append(list)
-    body.append(pkmn_name, img_div, navSections)
+    
+    const details_div = document.createElement('div')
+    details_div.id = 'details_div'
+
+    body.append(pkmn_name, img_div, navSections, details_div)
+
 
     const about = document.getElementById('about')
-    about.addEventListener('click', () => {renderAboutSection(pkmn, body)})
+    about.addEventListener('click', () => {renderAboutSection(pkmn, details_div)})
 }
 
-function renderAboutSection(pkmn, body){
+function renderAboutSection(pkmn, div){
+
+    div.innerHTML = ''
 
     const about_heading = document.createElement('h1')
     about_heading.textContent = 'Pokédex data'
 
     const pkmn_id = document.createElement('p')
-    pkmn_id.textContent = `ID: ${pkmn.id}`
+    pkmn_id.innerHTML = `ID: <span style="font-weight: bold">#${pkmn.id}</span>`
 
     const pkmn_height = document.createElement('p')
     pkmn_height.textContent = `Height: ${pkmn.height}`
@@ -127,9 +134,9 @@ function renderAboutSection(pkmn, body){
     pkmn_capture_rate.textContent = `Capture Rate: ${pkmn.capture_rate}`
 
     const pkmn_flavor_text = document.createElement('p')
-    pkmn_flavor_text.textContent = `Flavor Text: ${pkmn.flavor_text}`
+    pkmn_flavor_text.textContent = `Flavor Text: "${pkmn.flavor_text}"`
 
-    body.append(about_heading, pkmn_id, pkmn_height, pkmn_weight, pkmn_genus, pkmn_egg_groups, pkmn_color, pkmn_habitat, pkmn_base_exp, pkmn_base_happiness, pkmn_capture_rate, pkmn_flavor_text)
+    div.append(about_heading, pkmn_id, pkmn_height, pkmn_weight, pkmn_genus, pkmn_egg_groups, pkmn_color, pkmn_habitat, pkmn_base_exp, pkmn_base_happiness, pkmn_capture_rate, pkmn_flavor_text)
 }
 
 renderPage()
