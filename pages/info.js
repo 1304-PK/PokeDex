@@ -43,7 +43,15 @@ async function fetchDetails(){
         base_happiness: species.base_happiness,
         capture_rate: species.capture_rate,        
         habitat: species.habitat?.name || 'Unknown',
-        flavor_text: species.flavor_text_entries[0].flavor_text
+        flavor_text: species.flavor_text_entries[0].flavor_text,
+
+        // STATS
+        hp: pokemon.stats[0].base_stat,
+        attack: pokemon.stats[1].base_stat,
+        defense: pokemon.stats[2].base_stat,
+        sp_attack: pokemon.stats[3].base_stat,
+        sp_defense: pokemon.stats[4].base_stat,
+        speed: pokemon.stats[5].base_stat
 
     }
 }
@@ -78,7 +86,7 @@ async function renderPage(){
     const list = document.createElement('ul')
     list.id = 'nav-list'
     list.innerHTML = `<li id="about" class="nav">About</li>
-    <li id="base_stats" class="nav">Base Stats</li>
+    <li id="base_stats" class="nav">Stats</li>
     <li id="abilities" class="nav">Abilities</li>
     <li id="type" class="nav">Type</li>
     <li id="evolutions" class="nav">Evolutions</li>
@@ -94,6 +102,9 @@ async function renderPage(){
 
     const about = document.getElementById('about')
     about.addEventListener('click', () => {renderAboutSection(pkmn, details_div)})
+
+    const base_stats = document.getElementById('base_stats')
+    base_stats.addEventListener('click', () => {renderStatsSection(pkmn, details_div)})
 }
 
 function renderAboutSection(pkmn, div){
@@ -137,6 +148,36 @@ function renderAboutSection(pkmn, div){
     pkmn_flavor_text.textContent = `Flavor Text: "${pkmn.flavor_text}"`
 
     div.append(about_heading, pkmn_id, pkmn_height, pkmn_weight, pkmn_genus, pkmn_egg_groups, pkmn_color, pkmn_habitat, pkmn_base_exp, pkmn_base_happiness, pkmn_capture_rate, pkmn_flavor_text)
+}
+
+function renderStatsSection(pkmn, div){
+    div.innerHTML = ''
+
+    const stats_heading = document.createElement('h1')
+    stats_heading.textContent = 'Base Stats'
+
+    const hp = document.createElement('p')
+    hp.textContent = `HP: ${pkmn.hp}`
+
+    const attack = document.createElement('p')
+    attack.textContent = `HP: ${pkmn.attack}`
+
+    const defense = document.createElement('p')
+    defense.textContent = `HP: ${pkmn.defense}`
+
+    const sp_attack = document.createElement('p')
+    sp_attack.textContent = `HP: ${pkmn.sp_attack}`
+
+    const sp_defense = document.createElement('p')
+    sp_defense.textContent = `HP: ${pkmn.sp_defense}`
+
+    const speed = document.createElement('p')
+    speed.textContent = `HP: ${pkmn.speed}`
+
+    const total = document.createElement('p')
+    total.textContent = `Total: ${pkmn.hp+pkmn.attack+pkmn.defense+pkmn.sp_attack+pkmn.sp_defense+pkmn.speed}`
+
+    div.append(hp, attack, defense, sp_attack, sp_defense, speed, total)
 }
 
 renderPage()
