@@ -115,7 +115,7 @@ async function renderPage(){
     const data_grid = document.createElement('div')
     data_grid.classList.add('grid')
     data_grid.id = 'data_grid'
-    const data_array = [['Type', c(pkmn.type)], ['Species', pkmn.species], ['Egg Groups', c(pkmn.egg_groups)], ['Color', c(pkmn.color)], ['Habitat', c(pkmn.habitat)],['Capture Rate', `${pkmn.capture_rate}%`]]
+    const data_array = [['Type', c(pkmn.type)], ['Species', pkmn.species], ['Egg Groups', c(pkmn.egg_groups)], ['Color', c(pkmn.color)], ['Habitat', c(pkmn.habitat)],['Capture Rate', `${pkmn.capture_rate}`]]
 
     data_grid.innerHTML = `
         ${data_array.map(x => 
@@ -141,17 +141,25 @@ async function renderPage(){
     const stats_grid = document.createElement('div')
     stats_grid.classList.add('grid')
     stats_grid.id = 'stats_grid'
-    const stats_array = [['HP', 60, 255, 324], ['Attack', 65, 190, 229], ['Defense', 60, 230, 196], ['Sp. Atk', 130, 194, 251], ['Sp. Def', 75, 230, 218], ['Speed', 110, 180, 350], ['Total', 500, 'Min', 'Max']]
+
+    const min_hp = (2*pkmn.hp)+110, max_hp = (2*pkmn.hp)+204
+
+    const stats_array = [['Attack', pkmn.attack, 190, 229], ['Defense', pkmn.defense, 230, 196], ['Sp. Atk', pkmn.sp_attack, 194, 251], ['Sp. Def', pkmn.sp_defense, 230, 218], ['Speed', pkmn.speed, 180, 350]]
     stats_grid.innerHTML = `
+        <p>HP</p> <p>${pkmn.hp}</p> <p>${min_hp}</p> <p>${max_hp}</p>
+        
         ${stats_array.map(x => 
             `
             <p>${x[0]}</p>
             <p>${x[1]}</p>
-            <p>${x[2]}</p>
-            <p>${x[3]}</p>
+            <p>${Math.round((2 * x[1] + 5)*0.9)-1}</p>
+            <p>${Math.round((2 * x[1] + 99)*1.1)-1}</p>
             `
         ).join('')}
-    `
+    
+        <p>Total</p> <p>${pkmn.hp+pkmn.attack+pkmn.defense+pkmn.sp_attack+pkmn.sp_defense+pkmn.speed}</p> <p>Min</p> <p>Max</p>
+        `
+        
 
 
 base_stats.append(stats_heading, stats_grid)
