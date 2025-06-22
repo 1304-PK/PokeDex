@@ -62,49 +62,97 @@ async function renderPage(){
 
     const pkmn = await fetchDetails()
     const body = document.querySelector('body')
-    body.innerHTML = ''
+    body.setAttribute('style', `background-color: ${typeColor[pkmn.type]}`)
 
-    // POKEMON NAME
+    const name_id = document.createElement('div')
+    name_id.id = 'name_id'
+    const pkmn_id = document.createElement('h2')
+    pkmn_id.id = "pkmn_id"
+    pkmn_id.textContent = `#${pkmn.id}`
     const pkmn_name = document.createElement('h1')
     pkmn_name.id = 'pkmn_name'
-    pkmn_name.classList.add('details')
-    pkmn_name.textContent = pkmn.name.toUpperCase()
+    pkmn_name.textContent = name_input.toUpperCase()
+    name_id.append(pkmn_id, pkmn_name)
+
+
+    const first_row = document.createElement('div')
+    first_row.id = 'first-row'
+
+    // HEIGHT WEIGHT
+    const height_weight = document.createElement('div')
+    height_weight.id = 'height_weight'
+    const height = document.createElement('p')
+    height.id = 'height'
+    height.textContent = `Height: ${pkmn.height}`
+    const weight = document.createElement('p')
+    weight.id = 'weight'
+    weight.textContent = `Weight: ${pkmn.weight}`
+
+    height_weight.append(height, weight)
 
     // POKEMON IMAGE
-    const img_div = document.createElement('div')
-    img_div.id = 'img_div'
-    
-    const pkmn_type = pkmn.type
-    img_div.setAttribute('style', `background-color: ${typeColor[pkmn_type]}`) //ERROR WHY
 
-    const img = document.createElement('img')
-    img.id = 'pkmn_img'
-    img.src = pkmn.img
-    img_div.append(img)
+    const pkmn_img_div = document.createElement('div')
+    pkmn_img_div.id = 'image'
+    const pkmn_img = document.createElement('img')
+    pkmn_img.src = pkmn.img
 
-    const navSections = document.createElement('nav')
-    const list = document.createElement('ul')
-    list.id = 'nav-list'
-    list.innerHTML = `<li id="about" class="nav">About</li>
-    <li id="base_stats" class="nav">Stats</li>
-    <li id="abilities" class="nav">Abilities</li>
-    <li id="type" class="nav">Type</li>
-    <li id="evolutions" class="nav">Evolutions</li>
-    <li id="moves" class="nav">Moves</li>
-    <li id="forms" class="nav">Forms</li>`
-    navSections.append(list)
-    
-    const details_div = document.createElement('div')
-    details_div.id = 'details_div'
-
-    body.append(pkmn_name, img_div, navSections, details_div)
+    pkmn_img_div.append(pkmn_img)
 
 
-    const about = document.getElementById('about')
-    about.addEventListener('click', () => {renderAboutSection(pkmn, details_div)})
+    // POKEDEX DATA
+    const pokedex_data = document.createElement('div')
+    pokedex_data.id = 'pokedex_data'
 
-    const base_stats = document.getElementById('base_stats')
-    base_stats.addEventListener('click', () => {renderStatsSection(pkmn, details_div)})
+    const data_heading = document.createElement('h1')
+    data_heading.textContent = 'Pokédex data'
+
+    const data_grid = document.createElement('div')
+    data_grid.classList.add('grid')
+    data_grid.id = 'data_grid'
+    const data_array = [['Type', 'Ghost and Poison'], ['Species', 'Ghost Pokemon'], ['Genus','genus'], ['Egg Groups',100], ['Color', 'Purple'], ['Habitat', 'Cave'],['Capture Rate', '80%']]
+
+    data_grid.innerHTML = `
+        ${data_array.map(x => 
+            `
+                <p style="text-align: right">${x[0]}</p>
+                <p>${x[1]}</p>
+            `
+        ).join('')}
+    `
+
+    pokedex_data.append(data_heading, data_grid)
+
+    first_row.append(height_weight, pkmn_img_div, pokedex_data)
+
+    //BASE STATS
+
+    const second_row = document.createElement('div')
+
+    const base_stats = document.createElement('div')
+    const stats_heading = document.createElement('h1')
+    stats_heading.innerHTML = 'Base Stats'
+
+    const stats_grid = document.createElement('div')
+    stats_grid.classList.add('grid')
+    stats_grid.id = 'stats_grid'
+    const stats_array = [['HP', 60, 255, 324], ['Attack', 65, 190, 229], ['Defense', 60, 230, 196], ['Sp. Atk', 130, 194, 251], ['Sp. Def', 75, 230, 218], ['Speed', 110, 180, 350], ['Total', 500, 'Min', 'Max']]
+    stats_grid.innerHTML = `
+        ${stats_array.map(x => 
+            `
+            <p>${x[0]}</p>
+            <p>${x[1]}</p>
+            <p>${x[2]}</p>
+            <p>${x[3]}</p>
+            `
+        ).join('')}
+    `
+
+
+base_stats.append(stats_heading, stats_grid)
+second_row.append(base_stats)
+
+body.append(name_id, first_row, second_row)
 }
 
 function renderAboutSection(pkmn, div){
