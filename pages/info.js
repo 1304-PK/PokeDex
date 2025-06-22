@@ -19,6 +19,10 @@ const typeColor = {
 	fairy: '#D685AD'
 }
 
+function c(word){
+    return word[0].toUpperCase() + word.slice(1)
+}
+
 const name_input = localStorage.getItem('name_input')
 
 async function fetchDetails(){
@@ -37,6 +41,7 @@ async function fetchDetails(){
         type: pokemon.types[0].type.name,
         name: pokemon.species.name,
 
+        species: species.genera[7].genus,
         genus: species.genera.genus,
         egg_groups: species.egg_groups[0].name,
         color: species.color.name,
@@ -110,7 +115,7 @@ async function renderPage(){
     const data_grid = document.createElement('div')
     data_grid.classList.add('grid')
     data_grid.id = 'data_grid'
-    const data_array = [['Type', 'Ghost and Poison'], ['Species', 'Ghost Pokemon'], ['Genus','genus'], ['Egg Groups',100], ['Color', 'Purple'], ['Habitat', 'Cave'],['Capture Rate', '80%']]
+    const data_array = [['Type', c(pkmn.type)], ['Species', pkmn.species], ['Egg Groups', c(pkmn.egg_groups)], ['Color', c(pkmn.color)], ['Habitat', c(pkmn.habitat)],['Capture Rate', `${pkmn.capture_rate}%`]]
 
     data_grid.innerHTML = `
         ${data_array.map(x => 
