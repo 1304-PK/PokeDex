@@ -40,6 +40,7 @@ async function fetchDetails(){
         img: pokemon.sprites.other['official-artwork'].front_default,
         type: pokemon.types[0].type.name,
         name: pokemon.species.name,
+        ev_yield: pokemon.stats[0].effort,
 
         species: species.genera[7].genus,
         genus: species.genera.genus,
@@ -49,6 +50,7 @@ async function fetchDetails(){
         capture_rate: species.capture_rate,        
         habitat: species.habitat?.name || 'Unknown',
         flavor_text: species.flavor_text_entries[0].flavor_text,
+        growth_rate: species.growth_rate.name,
 
         // STATS
         hp: pokemon.stats[0].base_stat,
@@ -115,7 +117,7 @@ async function renderPage(){
     const data_grid = document.createElement('div')
     data_grid.classList.add('grid')
     data_grid.id = 'data_grid'
-    const data_array = [['Type', c(pkmn.type)], ['Species', pkmn.species], ['Egg Groups', c(pkmn.egg_groups)], ['Color', c(pkmn.color)], ['Habitat', c(pkmn.habitat)],['Capture Rate', `${pkmn.capture_rate}`]]
+    const data_array = [['Type', c(pkmn.type)], ['Species', pkmn.species], ['Egg Groups', c(pkmn.egg_groups)], ['Color', c(pkmn.color)], ['Habitat', c(pkmn.habitat)]]
 
     data_grid.innerHTML = `
         ${data_array.map(x => 
@@ -133,6 +135,9 @@ async function renderPage(){
     //BASE STATS
 
     const second_row = document.createElement('div')
+    second_row.id = 'second_row'
+
+    // BASE STATS
 
     const base_stats = document.createElement('div')
     const stats_heading = document.createElement('h1')
@@ -159,86 +164,57 @@ async function renderPage(){
     
         <p>Total</p> <p>${pkmn.hp+pkmn.attack+pkmn.defense+pkmn.sp_attack+pkmn.sp_defense+pkmn.speed}</p> <p>Min</p> <p>Max</p>
         `
-        
 
+    base_stats.append(stats_heading, stats_grid)
 
-base_stats.append(stats_heading, stats_grid)
-second_row.append(base_stats)
+    // TRAINING
 
-body.append(name_id, first_row, second_row)
-}
+    const training = document.createElement('div')
+    const training_heading = document.createElement('h1')
+    training_heading.textContent = 'Training'
 
-function renderAboutSection(pkmn, div){
+    const training_grid = document.createElement('div')
+    training_grid.classList.add('grid')
+    training_grid.id = 'training_grid'
 
-    div.innerHTML = ''
+    const training_array = [['EV Yield', pkmn.ev_yield], ['Catch rate', pkmn.capture_rate], ['Base Friendship', pkmn.base_happiness], ['Base Exp.', pkmn.base_exp], ['Growth Rate', c(pkmn.growth_rate)]]
+    training_grid.innerHTML = `
+        ${
+            training_array.map(x => 
+// DOUBT: WHY NOT WORKING WHEN WRAPPED IN {}
+                `
+                    <p>${x[0]}</p> <p>${x[1]}</p> 
+                `
+            ).join('')}
+        `
 
-    const about_heading = document.createElement('h1')
-    about_heading.textContent = 'Pokédex data'
+    training.append(training_heading, training_grid)
 
-    const pkmn_id = document.createElement('p')
-    pkmn_id.innerHTML = `ID: <span style="font-weight: bold">#${pkmn.id}</span>`
+    // BREEDING
+    const breeding = document.createElement('div')
+    const breeding_heading = document.createElement('h1')
+    breeding_heading.textContent = 'Breeding'
 
-    const pkmn_height = document.createElement('p')
-    pkmn_height.textContent = `Height: ${pkmn.height}`
+    const breeding_grid = document.createElement('div')
+    breeding_grid.classList.add('grid')
+    breeding_grid.id = 'breeding_grid'
 
-    const pkmn_weight = document.createElement('p')
-    pkmn_weight.textContent = `Weight: ${pkmn.weight}`
+    const breeding_array = [[1, 1]]
+    breeding_grid.innerHTML = `
+        ${
+            breeding_array.map(x => 
+// DOUBT: WHY NOT WORKING WHEN WRAPPED IN {}
+                `
+                    <p>${x[0]}</p> <p>${x[1]}</p> 
+                `
+            ).join('')}
+        `
+    
+    breeding.append(breeding_heading, breeding_grid)
 
-    const pkmn_genus = document.createElement('p')
-    pkmn_genus.textContent = `Genus: ${pkmn.weight}`
+    second_row.append(base_stats, training, breeding)
 
-    const pkmn_egg_groups = document.createElement('p')
-    pkmn_egg_groups.textContent = `Egg Groups: ${pkmn.weight}`
-
-    const pkmn_color = document.createElement('p')
-    pkmn_color.textContent = `Color: ${pkmn.weight}`
-
-    const pkmn_habitat = document.createElement('p')
-    pkmn_habitat.textContent = `Habitat: ${pkmn.habitat}`
-
-    const pkmn_base_exp = document.createElement('p')
-    pkmn_base_exp.textContent = `Base Experience: ${pkmn.base_exp}`
-
-    const pkmn_base_happiness = document.createElement('p')
-    pkmn_base_happiness.textContent = `Base Happiness: ${pkmn.base_happiness}`
-
-    const pkmn_capture_rate = document.createElement('p')
-    pkmn_capture_rate.textContent = `Capture Rate: ${pkmn.capture_rate}`
-
-    const pkmn_flavor_text = document.createElement('p')
-    pkmn_flavor_text.textContent = `Flavor Text: "${pkmn.flavor_text}"`
-
-    div.append(about_heading, pkmn_id, pkmn_height, pkmn_weight, pkmn_genus, pkmn_egg_groups, pkmn_color, pkmn_habitat, pkmn_base_exp, pkmn_base_happiness, pkmn_capture_rate, pkmn_flavor_text)
-}
-
-function renderStatsSection(pkmn, div){
-    div.innerHTML = ''
-
-    const stats_heading = document.createElement('h1')
-    stats_heading.textContent = 'Base Stats'
-
-    const hp = document.createElement('p')
-    hp.textContent = `HP: ${pkmn.hp}`
-
-    const attack = document.createElement('p')
-    attack.textContent = `HP: ${pkmn.attack}`
-
-    const defense = document.createElement('p')
-    defense.textContent = `HP: ${pkmn.defense}`
-
-    const sp_attack = document.createElement('p')
-    sp_attack.textContent = `HP: ${pkmn.sp_attack}`
-
-    const sp_defense = document.createElement('p')
-    sp_defense.textContent = `HP: ${pkmn.sp_defense}`
-
-    const speed = document.createElement('p')
-    speed.textContent = `HP: ${pkmn.speed}`
-
-    const total = document.createElement('p')
-    total.textContent = `Total: ${pkmn.hp+pkmn.attack+pkmn.defense+pkmn.sp_attack+pkmn.sp_defense+pkmn.speed}`
-
-    div.append(hp, attack, defense, sp_attack, sp_defense, speed, total)
+    body.append(name_id, first_row, second_row)
 }
 
 renderPage()
