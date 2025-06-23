@@ -51,6 +51,8 @@ async function fetchDetails(){
         habitat: species.habitat?.name || 'Unknown',
         flavor_text: species.flavor_text_entries[0].flavor_text,
         growth_rate: species.growth_rate.name,
+        egg_cycles: species.hatch_counter,
+        gender_rate: species.gender_rate,
 
         // STATS
         hp: pokemon.stats[0].base_stat,
@@ -199,7 +201,7 @@ async function renderPage(){
     breeding_grid.classList.add('grid')
     breeding_grid.id = 'breeding_grid'
 
-    const breeding_array = [[1, 1]]
+    const breeding_array = [['Egg Groups', c(pkmn.egg_groups)],['Gender', `${100-(pkmn.gender_rate*12.5)}% male, ${pkmn.gender_rate*12.5}% female`], ['Egg Cycles', pkmn.egg_cycles]]
     breeding_grid.innerHTML = `
         ${
             breeding_array.map(x => 
