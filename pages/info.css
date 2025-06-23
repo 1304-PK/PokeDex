@@ -58,3 +58,17 @@ body{
 #stats_grid{
     grid-template-columns: auto auto auto auto;
 }
+
+#training_grid{
+    grid-template-columns: auto auto;
+}
+
+#breeding_grid{
+    grid-template-columns: auto auto;
+}
+
+#second_row{
+    display: flex;
+    gap: 10vmin;
+}
+
