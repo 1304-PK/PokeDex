@@ -153,18 +153,25 @@ async function renderPage(){
 
     const stats_array = [['Attack', pkmn.attack, 190, 229], ['Defense', pkmn.defense, 230, 196], ['Sp. Atk', pkmn.sp_attack, 194, 251], ['Sp. Def', pkmn.sp_defense, 230, 218], ['Speed', pkmn.speed, 180, 350]]
     stats_grid.innerHTML = `
-        <p>HP</p> <p>${pkmn.hp}</p> <p>${min_hp}</p> <p>${max_hp}</p>
+        <p>HP</p> <p>${pkmn.hp}</p> 
+        <div id="bar_container" style="width:35vmin;display:flex;">
+            <div id="bar" style="background-color: #a0e515;height: 2vmin; border-radius: 7px;width:${100*(pkmn.hp/max_hp)}%; border: 1px solid #87c211"></div>
+        </div>
+        <p>${min_hp}</p> <p>${max_hp}</p>
         
         ${stats_array.map(x => 
             `
             <p>${x[0]}</p>
             <p>${x[1]}</p>
+            <div id="bar_container" style="width:35vmin;display:flex;">
+                <div id="bar" style="background-color: #a0e515;height: 2vmin;width:${100*(x[1]/(Math.round((2 * x[1] + 99)*1.1)-1))}%; border-radius: 7px; border: 1px solid #87c211"></div>
+            </div>
             <p>${Math.round((2 * x[1] + 5)*0.9)-1}</p>
             <p>${Math.round((2 * x[1] + 99)*1.1)-1}</p>
             `
         ).join('')}
     
-        <p>Total</p> <p>${pkmn.hp+pkmn.attack+pkmn.defense+pkmn.sp_attack+pkmn.sp_defense+pkmn.speed}</p> <p>Min</p> <p>Max</p>
+        <p>Total</p> <p>${pkmn.hp+pkmn.attack+pkmn.defense+pkmn.sp_attack+pkmn.sp_defense+pkmn.speed}</p> <p></p> <p>Min</p> <p>Max</p>
         `
 
     base_stats.append(stats_heading, stats_grid)
