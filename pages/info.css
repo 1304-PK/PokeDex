@@ -25,6 +25,7 @@ body{
     justify-content:space-between;
     align-items: center;
     font-size: 1.3rem;
+    flex-wrap: wrap;
 }
 
 #image img{
@@ -56,7 +57,7 @@ body{
 }
 
 #stats_grid{
-    grid-template-columns: auto auto auto auto;
+    grid-template-columns: auto auto auto auto auto;
 }
 
 #training_grid{
@@ -69,6 +70,7 @@ body{
 
 #second_row{
     display: flex;
-    gap: 10vmin;
+    justify-content: space-between;
+    flex-wrap: wrap;
 }
 
